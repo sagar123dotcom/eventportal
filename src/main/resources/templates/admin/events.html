@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Manage Events')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <div class="row">
+        <h1>Manage Events</h1>
+        <div>
+            <a class="btn" th:href="@{/admin/events/new}">+ New Event</a>
+            <a class="btn light" th:href="@{/admin/logout}">Logout</a>
+        </div>
+    </div>
+    <div class="alert success" th:if="${success}" th:text="${success}"></div>
+
+    <table>
+        <thead>
+        <tr><th>Title</th><th>Date</th><th>Location</th><th>Registered</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="e : ${events}">
+            <td th:text="${e.title}"></td>
+            <td th:text="${#temporals.format(e.eventDate,'dd MMM yyyy HH:mm')}"></td>
+            <td th:text="${e.location}"></td>
+            <td th:text="${e.registrations.size()} + ' / ' + ${e.capacity}"></td>
+            <td class="actions">
+                <a th:href="@{/admin/events/{id}/registrations(id=${e.id})}">Attendees</a>
+                <a th:href="@{/admin/events/{id}/edit(id=${e.id})}">Edit</a>
+                <form method="post" th:action="@{/admin/events/{id}/delete(id=${e.id})}"
+                      onsubmit="return confirm('Delete this event and its registrations?')">
+                    <button class="link danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

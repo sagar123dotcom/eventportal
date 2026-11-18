@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Admin Login')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container narrow">
+    <h1>Admin Login</h1>
+    <div class="alert error" th:if="${error}" th:text="${error}"></div>
+    <form class="panel" method="post" th:action="@{/admin/login}">
+        <label>Username</label>
+        <input type="text" name="username" required autofocus>
+        <label>Password</label>
+        <input type="password" name="password" required>
+        <button class="btn">Login</button>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Attendees')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <a th:href="@{/admin}">&larr; Back</a>
+    <h1>Attendees: <span th:text="${event.title}"></span></h1>
+    <p class="muted"><span th:text="${event.registrations.size()}"></span> of <span th:text="${event.capacity}"></span> spots taken</p>
+    <p th:if="${event.registrations.empty}" class="muted">No registrations yet.</p>
+    <table th:unless="${event.registrations.empty}">
+        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Registered at</th></tr></thead>
+        <tbody>
+        <tr th:each="r, i : ${event.registrations}">
+            <td th:text="${i.count}"></td>
+            <td th:text="${r.name}"></td>
+            <td th:text="${r.email}"></td>
+            <td th:text="${#temporals.format(r.registeredAt,'dd MMM yyyy HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

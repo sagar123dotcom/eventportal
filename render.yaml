@@ -1,0 +1,44 @@
+# Free Postgres is suitable for a demo only: Render expires it after 30 days.
+databases:
+  - name: community-event-portal-db
+    databaseName: community_events
+    user: community_events_user
+    plan: free
+    region: singapore
+
+services:
+  - type: web
+    name: community-event-portal
+    runtime: docker
+    plan: free
+    region: singapore
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: render
+      - key: DB_HOST
+        fromDatabase:
+          name: community-event-portal-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: community-event-portal-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: community-event-portal-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: community-event-portal-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: community-event-portal-db
+          property: password
+      - key: DB_SSLMODE
+        value: require
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        generateValue: true

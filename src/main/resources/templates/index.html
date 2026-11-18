@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Upcoming Events')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container">
+    <h1>Upcoming Events</h1>
+    <form class="search" method="get" th:action="@{/}">
+        <input type="text" name="q" th:value="${q}" placeholder="Search by title, place or category...">
+        <button class="btn">Search</button>
+    </form>
+
+    <p th:if="${events.empty}" class="muted">No upcoming events found.</p>
+
+    <div class="grid">
+        <div class="card" th:each="e : ${events}">
+            <span class="tag" th:text="${e.category}">Category</span>
+            <h3><a th:href="@{/events/{id}(id=${e.id})}" th:text="${e.title}">Title</a></h3>
+            <p class="muted">📅 <span th:text="${#temporals.format(e.eventDate,'EEE, dd MMM yyyy, HH:mm')}"></span></p>
+            <p class="muted">📍 <span th:text="${e.location}"></span></p>
+            <p>
+                <span th:if="${e.full}" class="badge red">Full</span>
+                <span th:unless="${e.full}" class="badge green" th:text="${e.spotsLeft} + ' spots left'"></span>
+            </p>
+            <a class="btn" th:href="@{/events/{id}(id=${e.id})}">View &amp; Register</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

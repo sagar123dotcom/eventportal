@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${event.title})}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container narrow">
+    <a th:href="@{/}">&larr; All events</a>
+    <div class="alert success" th:if="${success}" th:text="${success}"></div>
+
+    <span class="tag" th:text="${event.category}"></span>
+    <h1 th:text="${event.title}">Title</h1>
+    <p class="muted">📅 <span th:text="${#temporals.format(event.eventDate,'EEEE, dd MMMM yyyy, HH:mm')}"></span></p>
+    <p class="muted">📍 <span th:text="${event.location}"></span></p>
+    <p th:text="${event.description}"></p>
+    <p><strong th:text="${event.registrations.size()}">0</strong> / <span th:text="${event.capacity}"></span> registered</p>
+
+    <div class="panel" th:if="${event.past}"><p>This event has already taken place.</p></div>
+    <div class="panel" th:if="${!event.past and event.full}"><p>This event is full.</p></div>
+
+    <form class="panel" th:if="${!event.past and !event.full}" method="post"
+          th:action="@{/events/{id}/register(id=${event.id})}" th:object="${form}">
+        <h3>Register</h3>
+        <div class="alert error" th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+        <label>Name</label>
+        <input type="text" th:field="*{name}">
+        <small class="err" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+        <label>Email</label>
+        <input type="email" th:field="*{email}">
+        <small class="err" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+        <button class="btn">Register</button>
+    </form>
+</main>
+</body>
+</html>

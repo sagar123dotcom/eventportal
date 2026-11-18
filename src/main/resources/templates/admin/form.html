@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Event Form')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main class="container narrow">
+    <h1 th:text="${event.id == null} ? 'New Event' : 'Edit Event'">Event</h1>
+    <form class="panel" method="post" th:action="@{/admin/events}" th:object="${event}">
+        <input type="hidden" th:field="*{id}">
+
+        <label>Title</label>
+        <input type="text" th:field="*{title}">
+        <small class="err" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+
+        <label>Category</label>
+        <input type="text" th:field="*{category}" placeholder="e.g. Culture, Health, Volunteering">
+        <small class="err" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></small>
+
+        <label>Location</label>
+        <input type="text" th:field="*{location}">
+        <small class="err" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></small>
+
+        <label>Date &amp; Time</label>
+        <input type="datetime-local" th:field="*{eventDate}">
+        <small class="err" th:if="${#fields.hasErrors('eventDate')}" th:errors="*{eventDate}"></small>
+
+        <label>Capacity</label>
+        <input type="number" min="1" th:field="*{capacity}">
+        <small class="err" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></small>
+
+        <label>Description</label>
+        <textarea rows="5" th:field="*{description}"></textarea>
+        <small class="err" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></small>
+
+        <button class="btn">Save</button>
+        <a class="btn light" th:href="@{/admin}">Cancel</a>
+    </form>
+</main>
+</body>
+</html>

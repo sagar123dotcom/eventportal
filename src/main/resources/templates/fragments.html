@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' | Community Events'">Community Events</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:fragment="nav" class="nav">
+    <a class="brand" th:href="@{/}">🎉 Community Events</a>
+    <div>
+        <a th:href="@{/}">Events</a>
+        <a th:href="@{/admin}">Admin</a>
+    </div>
+</nav>
+</body>
+</html>
